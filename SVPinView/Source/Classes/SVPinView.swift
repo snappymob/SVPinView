@@ -61,8 +61,27 @@ public class SVPinView: UIView {
     @IBInspectable public var allowsWhitespaces: Bool = true
     @IBInspectable public var placeholder: String = ""
     
-    @IBInspectable public var borderLineColor: UIColor = UIColor.black
-    @IBInspectable public var activeBorderLineColor: UIColor = UIColor.black
+    @IBInspectable public var borderLineColor: UIColor = UIColor.black {
+        didSet {
+            for index in 0..<pinLength {
+                guard let textField = collectionView.cellForItem(at: IndexPath(item: index, section: 0))?.viewWithTag(101 + index) as? SVPinField, let containerView = textField.superview?.viewWithTag(51)
+                else { return }
+                containerView.layer.borderWidth = borderLineThickness
+                containerView.layer.borderColor = borderLineColor.cgColor
+            }
+        }
+    }
+
+    @IBInspectable public var activeBorderLineColor: UIColor = UIColor.black {
+        didSet {
+            for index in 0..<pinLength {
+                guard let textField = collectionView.cellForItem(at: IndexPath(item: index, section: 0))?.viewWithTag(101 + index) as? SVPinField, let containerView = textField.superview?.viewWithTag(51)
+                else { return }
+                containerView.layer.borderWidth = activeBorderLineThickness
+                containerView.layer.borderColor = activeBorderLineColor.cgColor
+            }
+        }
+    }
     
     @IBInspectable public var borderLineThickness: CGFloat = 2
     @IBInspectable public var activeBorderLineThickness: CGFloat = 4
